@@ -3,6 +3,12 @@ import { Slot, SplashScreen, Stack } from 'expo-router'
 import { useFonts } from 'expo-font'
 import { useEffect } from 'react';
 
+import { NativeWindStyleSheet } from "nativewind";
+
+NativeWindStyleSheet.setOutput({
+  default: "native",
+});
+
 let customFonts = {
   "Poppins-Black": require("../assets/fonts/Poppins-Black.ttf"),
   "Poppins-Bold": require("../assets/fonts/Poppins-Bold.ttf"),
@@ -21,9 +27,9 @@ const RootLayout = () => {
   const [fontsLoaded, error] = useFonts(customFonts); 
 
   useEffect(() => {
-    if(error) throw error;
-
-    if(fontsLoaded) SplashScreen.hideAsync();
+    if(fontsLoaded || error){
+      SplashScreen.hideAsync();
+    }
   },[fontsLoaded, error])
 
   if(!fontsLoaded && !error) return null;
